@@ -4,9 +4,11 @@ A playable, static 3D campus parody set at the entirely fictional **University o
 
 > “At UPR, CGPA matters.”
 
+[Play in your browser](https://abid-5as.github.io/the-registrar/) · [Build status](https://github.com/Abid-5AS/the-registrar/actions)
+
 ![The Registrar campus menu](docs/preview.png)
 
-The satire targets contradictory rules, rote-learning incentives, marks fixation, access barriers, and paperwork culture. It does not depict a real institution or member of staff. The characters, university, documents, and scenarios are fictional. No real names, photographs, student IDs, analytics, backend, or API keys are used.
+The satire targets contradictory rules, rote-learning incentives, marks fixation, access barriers, and paperwork culture. It does not depict a real institution or member of staff. The characters, university, documents, and scenarios are fictional. No personal names, photographs, real student IDs, analytics, backend, or API keys are used.
 
 ## Play locally
 
@@ -65,7 +67,7 @@ The versioned `registrar.academic-chaos.v1` localStorage entry stores best score
 
 Vite uses `base: './'`, so compiled assets resolve relative to the page. The static production game is tested under `/registrar-simulator/`, not only at `/`. It also works at another repository subpath without rebuilding.
 
-Deployment guidance: [Vite static deployment documentation](https://vite.dev/guide/static-deploy.html). No repository has been created or published automatically.
+Deployment guidance: [Vite static deployment documentation](https://vite.dev/guide/static-deploy.html).
 
 ## Verification
 

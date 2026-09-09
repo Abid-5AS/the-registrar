@@ -21,7 +21,7 @@ A desktop menu sample reported 60 FPS in headless Chrome on this machine. This i
 
 - Mobile inputs and resizing were tested through Chrome's touch/mobile emulation; a physical iPhone/Android device and Safari were not tested.
 - Later boss timing and mechanics are covered in the pure simulation tests. The browser run explicitly covers the first revision, rather than a manual uninterrupted multi-minute endurance session.
-- The GitHub Actions workflow and static repository-subpath behavior are provided and checked locally. An actual remote GitHub deployment has not been performed.
+- The GitHub Actions workflow runs the unit and production-browser checks before deployment. Remote execution status is available in the repository’s Actions tab.
 - Office scenarios are handcrafted rather than procedurally generated; repeat days revisit the eight scenarios.
 - Completed progress and partial office days are persisted. Runner and inbox/attachment rounds restart after a refresh.
 
