@@ -1,0 +1,28 @@
+{
+  "name": "the-registrar-academic-chaos",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest run",
+    "test:browser": "node tests/browser.mjs",
+    "test:release": "npm run build && node tests/production.mjs",
+    "format": "prettier --write src tests *.json *.ts *.md index.html .github/workflows/*.yml"
+  },
+  "dependencies": {
+    "@fontsource/anton": "^5.3.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/three": "^0.185.4",
+    "agent-browser": "^0.27.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0"
+  }
+}

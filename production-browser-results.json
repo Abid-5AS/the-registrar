@@ -1,0 +1,26 @@
+{
+  "base": "http://127.0.0.1:60808/registrar-simulator/",
+  "checks": [
+    "Desktop menu and 3D canvas render",
+    "Keyboard lane change, jump, slide, and WASD operate actual runner",
+    "Fullscreen enters and exits without losing the run",
+    "Pause freezes score",
+    "Revision desk supports dragging, tapping, and stack 10",
+    "Partial office day resumes without reapplying decision effects",
+    "Complete office day with high clarity and progression",
+    "Settings persist across reload",
+    "Five CGPA clicks unlock the legendary event",
+    "Untimed inbox has no life penalty, archives wrong choices, and completes six logical batches",
+    "Every attachment is deducible from visible clues; free hints and unlimited retry work",
+    "Achievement persistence and gallery",
+    "Desktop animation sampled: 60 FPS in headless Chrome",
+    "Corrupt localStorage does not break startup",
+    "390px portrait menu has no horizontal overflow",
+    "Mobile touch buttons and horizontal/vertical swipe handlers",
+    "Runner resizes to mobile landscape without horizontal overflow",
+    "Mobile office layout and decision controls",
+    "No browser console errors, uncaught exceptions, or failed asset requests"
+  ],
+  "errors": [],
+  "failed": []
+}
