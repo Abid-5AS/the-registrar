@@ -2447,3 +2447,16 @@ dialog .play-button {
     display: none;
   }
 }
+
+.dollar-counter {
+  color: #285c3e;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  font-weight: 800;
+}
+.dollar-counter small {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin-left: 5px;
+}

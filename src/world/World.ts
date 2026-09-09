@@ -5,8 +5,8 @@ const C = {
   grass: 0x9bb377,
   grassDark: 0x78995b,
   cream: 0xf3e6c9,
-  wall: 0xe8cba1,
-  roof: 0xc57657,
+  wall: 0xa64c37,
+  roof: 0x8d3d30,
   green: 0x294d41,
   path: 0xe6cfaa,
   coral: 0xd86545,
@@ -45,6 +45,56 @@ function box(
   m.receiveShadow = true;
   parent.add(m);
   return m;
+}
+// One shared, procedural running-bond texture. UVs keep bricks the same size
+// on buildings of different dimensions, without adding individual brick meshes.
+let brickMaterial: THREE.MeshStandardMaterial | undefined;
+function brickBox(
+  parent: THREE.Object3D,
+  x: number,
+  y: number,
+  z: number,
+  w: number,
+  h: number,
+  d: number,
+) {
+  if (!brickMaterial) {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 256;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#795348";
+    ctx.fillRect(0, 0, 256, 256);
+    const shades = ["#a54c38", "#b45740", "#994431", "#ad5039", "#a14a36"];
+    for (let row = 0; row < 8; row++) {
+      for (let col = -1; col < 5; col++) {
+        ctx.fillStyle = shades[(row * 7 + col + 10) % shades.length];
+        ctx.fillRect(col * 64 + (row % 2) * 32 + 2, row * 32 + 2, 60, 28);
+      }
+    }
+    const map = new THREE.CanvasTexture(canvas);
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.wrapS = map.wrapT = THREE.RepeatWrapping;
+    brickMaterial = new THREE.MeshStandardMaterial({ map, roughness: 1 });
+  }
+  const geometry = new THREE.BoxGeometry(w, h, d);
+  const uv = geometry.attributes.uv;
+  const faces = [
+    [d, h],
+    [d, h],
+    [w, d],
+    [w, d],
+    [w, h],
+    [w, h],
+  ];
+  faces.forEach(([width, height], face) => {
+    for (let i = face * 4; i < face * 4 + 4; i++)
+      uv.setXY(i, (uv.getX(i) * width) / 4, (uv.getY(i) * height) / 4);
+  });
+  const mesh = new THREE.Mesh(geometry, brickMaterial);
+  mesh.position.set(x, y, z);
+  mesh.castShadow = mesh.receiveShadow = true;
+  parent.add(mesh);
+  return mesh;
 }
 const cylGeo = new THREE.CylinderGeometry(1, 1, 1, 8);
 function cylinder(
@@ -103,7 +153,7 @@ function label(
     ctx.fillStyle = fg;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `bold ${text.length > 21 ? 24 : 35}px sans-serif`;
+    ctx.font = `bold ${text === "$1" ? 110 : text.length > 21 ? 24 : 35}px sans-serif`;
     ctx.fillText(text, 256, 67, 486);
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -132,12 +182,11 @@ function building(
   width: number,
   height: number,
   name: string,
-  color = C.wall,
 ) {
   const g = new THREE.Group();
   g.position.set(x, 0, z);
   parent.add(g);
-  box(g, 0, height / 2, 0, width, height, 4.2, color);
+  brickBox(g, 0, height / 2, 0, width, height, 4.2);
   box(g, 0, height + 0.12, 0, width + 0.5, 0.3, 4.7, C.roof);
   box(g, 0, 0.2, 2.45, width + 0.6, 0.4, 1, C.cream);
   box(g, 0, height * 0.55, 2.2, width + 0.15, 0.17, 0.3, C.cream);
@@ -358,7 +407,7 @@ export class World {
         0.13,
         0.035,
         0.22,
-        i % 3 ? C.cream : C.gold,
+        i % 3 ? C.cream : 0x67b77b,
       );
       mesh.castShadow = false;
       mesh.visible = false;
@@ -393,7 +442,7 @@ export class World {
     box(g, 0, 0.18, 1, 5.5, 0.12, 20, C.path);
     box(g, 0, 0.2, 4.2, 27, 0.12, 3.2, C.path);
     building(g, 0, -6.5, 13, 6.5, "ACADEMIC BLOCK");
-    box(g, 0, 7.2, -6.5, 4, 1.1, 4.4, C.cream);
+    brickBox(g, 0, 7.2, -6.5, 4, 1.1, 4.4);
     const ped = new THREE.Mesh(
       new THREE.ConeGeometry(3.1, 1.4, 4),
       material(C.roof),
@@ -410,7 +459,7 @@ export class World {
       box(g, x, 0.38, -3.5, 0.65, 0.2, 0.65, C.cream);
     }
     box(g, 0, 3.6, -3.55, 7.1, 0.28, 2, C.roof);
-    building(g, -10, -5.8, 4, 3.6, "LIBRARY", 0xdcb694);
+    building(g, -10, -5.8, 4, 3.6, "LIBRARY");
     for (const [x, z, s] of [
       [-9, 1, 1.2],
       [-10, 7, 1.2],
@@ -432,7 +481,8 @@ export class World {
       blob(g, x, 3.65, 2.6, 0.32, C.cream);
     }
     box(g, 6, 1, -0.2, 0.15, 2, 0.15, C.ink);
-    label(g, "EXAMS THIS WAY →", 6, 2.1, -0.08, 3.5, 0.8);
+    label(g, "RED HAVEN", 6, 2.1, -0.08, 3.5, 0.8);
+    label(g, "EXAM WEEK: RED HELL", 6, 1.5, -0.08, 3.5, 0.4, "#8d3d30");
     this.menuStudent.group.position.set(-1.8, 0.3, 7);
     this.menuStudent.group.rotation.y = -0.45;
     this.menuStudent.group.scale.setScalar(1.4);
@@ -499,7 +549,7 @@ export class World {
           5 + (i % 3),
           ["LIBRARY", "ACADEMIC BLOCK", "EXAM HALL", "REGISTRAR"][i % 4],
         );
-        building(row, 15, -7, 9, 5, "CAMPUS", i % 2 ? C.cream : C.wall);
+        building(row, 15, -7, 9, 5, "RED HAVEN");
       }
       if (i % 2 === 0) {
         cylinder(row, 5.9, 1.7, 2, 0.07, 3.4, C.ink);
@@ -511,7 +561,7 @@ export class World {
       this.runner.add(arch);
       this.arches.push(arch);
       for (const x of [-5.8, 5.8]) {
-        box(arch, x, 2.7, 0, 0.65, 5.4, 0.7, C.cream);
+        brickBox(arch, x, 2.7, 0, 0.65, 5.4, 0.7);
         box(arch, x, 0.25, 0, 1.1, 0.5, 1.1, C.wall);
       }
       box(arch, 0, 5.5, 0, 12.6, 0.65, 1.25, C.roof);
@@ -542,8 +592,8 @@ export class World {
     box(g, 0, -0.4, 0, 19, 0.8, 15, C.path);
     for (let i = -8; i < 9; i += 2)
       box(g, i, 0.012, 0, 0.018, 0.02, 15, 0xc4b594);
-    box(g, 0, 3.1, -7, 19, 6.2, 0.3, C.wall);
-    box(g, -9.3, 3.1, 0, 0.3, 6.2, 14, C.cream);
+    brickBox(g, 0, 3.1, -7, 19, 6.2, 0.3);
+    brickBox(g, -9.3, 3.1, 0, 0.3, 6.2, 14);
     box(g, -5.8, 3.6, -6.8, 4.5, 3.1, 0.15, C.teal);
     for (const x of [-7.3, -5.8, -4.3])
       box(g, x, 3.6, -6.65, 0.14, 3.1, 0.2, C.cream);
@@ -698,38 +748,50 @@ export class World {
         box(g, 0, 0.5, 0, 2.4, 1, 1.6, C.coral);
         cylinder(g, 0, 1.6, 0, 0.3, 1.4, C.roof);
         break;
+      case "token": {
+        const bill = new THREE.Group();
+        g.add(bill);
+        box(bill, 0, 0, 0, 1.3, 0.65, 0.06, 0x286947);
+        box(bill, 0, 0, 0, 1.16, 0.51, 0.075, 0xb9dab0);
+        label(bill, "$1", 0, 0, 0.045, 0.95, 0.43, "#b9dab0", "#245d3e");
+        label(
+          bill,
+          "$1",
+          0,
+          0,
+          -0.045,
+          0.95,
+          0.43,
+          "#b9dab0",
+          "#245d3e",
+        ).rotation.y = Math.PI;
+        break;
+      }
       default: {
         const color =
-          kind === "token"
-            ? C.gold
-            : kind === "shield"
-              ? C.teal
-              : kind === "coffee"
-                ? C.coral
-                : 0x9fa2c7;
+          kind === "shield" ? C.teal : kind === "coffee" ? C.coral : 0x9fa2c7;
         const orb = new THREE.Mesh(
-          new THREE.OctahedronGeometry(kind === "token" ? 0.4 : 0.62),
+          new THREE.OctahedronGeometry(0.62),
           material(color),
         );
         orb.position.y = 1.2;
         g.add(orb);
-        if (kind !== "token")
-          label(
-            g,
-            {
-              shield: "ADMIT",
-              coffee: "COFFEE",
-              screenshot: "LOCK",
-              groupchat: "CHAT",
-              compare: "COMPARE",
-              read: "FOCUS",
-            }[kind],
-            0,
-            2.05,
-            0.1,
-            1.8,
-            0.44,
-          );
+        label(
+          g,
+          {
+            shield: "ADMIT",
+            coffee: "COFFEE",
+            screenshot: "LOCK",
+            groupchat: "CHAT",
+            compare: "COMPARE",
+            read: "FOCUS",
+          }[kind],
+          0,
+          2.05,
+          0.1,
+          1.8,
+          0.44,
+        );
       }
     }
     this.itemMeshes.push(g);

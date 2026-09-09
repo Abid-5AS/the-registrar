@@ -2,7 +2,9 @@
 
 A playable, static 3D campus parody set at the entirely fictional **University of Perpetual Revision (UPR)**.
 
-> “At UPR, CGPA matters.”
+> Red Haven in the brochure. Red Hell in exam week.
+
+A red-brick campus, green campus cash, and an education in paperwork. The dollars are fictional game currency; CGPA remains a separate hidden joke.
 
 [Play in your browser](https://abid-5as.github.io/the-registrar/) · [Build status](https://github.com/Abid-5AS/the-registrar/actions)
 
@@ -30,7 +32,7 @@ npm run preview
 
 ## Four complete modes
 
-**Student Survival** — a three-lane campus runner with smooth movement, jumping, sliding, short obstacles, tall cabinets, gold CGPA tokens, six power-ups, three admit-card hearts, collision grace, and escalating schedule changes. Revisions clear hazards, slow time to 72%, highlight the new destination, and allow at least 6.5–9 seconds at the configured speed cap. A correct gate awards 250 points; a wrong gate uses one card. There is no single-hit death.
+**Student Survival** — a three-lane campus runner with smooth movement, jumping, sliding, short obstacles, tall cabinets, floating $1 campus dollars (+25 points each), six power-ups, three admit-card hearts, collision grace, and escalating schedule changes. Revisions clear hazards, slow time to 72%, highlight the new destination, and allow at least 6.5–9 seconds at the configured speed cap. A correct gate awards 250 points; a wrong gate uses one card. There is no single-hit death.
 
 The first revision arrives around 30 seconds. The Registrar makes a cameo after 2½ minutes, with a 30-second inspection after roughly five minutes. Stamps have 3½-second warnings. Campus zones change ground palette, buildings, and colonnades as distance grows. Geometry and materials are shared, architecture is instanced, obstacles are pooled, and paper particles are bounded.
 

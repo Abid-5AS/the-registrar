@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:60808/registrar-simulator/",
+  "base": "http://127.0.0.1:61124/registrar-simulator/",
   "checks": [
     "Desktop menu and 3D canvas render",
     "Keyboard lane change, jump, slide, and WASD operate actual runner",

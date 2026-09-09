@@ -44,10 +44,18 @@ try {
   );
   await page.keyboard.press("ArrowUp");
   await expect(page.locator("canvas")).toHaveAttribute("aria-label", /jumping/);
-  await page.waitForTimeout(1100);
+  await expect(page.locator("canvas")).toHaveAttribute(
+    "aria-label",
+    /running/,
+    { timeout: 15000 },
+  );
   await page.keyboard.press("ArrowDown");
   await expect(page.locator("canvas")).toHaveAttribute("aria-label", /sliding/);
-  await page.waitForTimeout(1100);
+  await expect(page.locator("canvas")).toHaveAttribute(
+    "aria-label",
+    /running/,
+    { timeout: 15000 },
+  );
   await page.keyboard.press("d");
   await expect(page.locator("canvas")).toHaveAttribute(
     "aria-label",
