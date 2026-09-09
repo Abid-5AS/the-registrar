@@ -1001,7 +1001,7 @@ export class Game {
     this.cgpaClicks = 0;
     this.unlock("legend");
     this.openDialog(
-      '<p class="eyebrow">THE OFFICE WOULD LIKE A WORD</p><h2 class="legend-text">AT UPR…<br><em>CGPA MATTERS.</em></h2><div class="legend-stamp">THE LEGEND</div><p>Some policies are not subject to revision.</p><button class="play-button" data-action="close">Duly noted.</button>',
+      '<p class="eyebrow">THE OFFICE WOULD LIKE A WORD</p><h2 class="legend-text">In IUT,<br><em>CGPA matters.</em></h2><div class="legend-stamp">THE LEGEND</div><p>Some policies are not subject to revision.</p><button class="play-button" data-action="close">Duly noted.</button>',
       "legend-modal",
     );
     document.body.classList.add("legendary");
