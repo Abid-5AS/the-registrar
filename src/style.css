@@ -2460,3 +2460,12 @@ dialog .play-button {
   letter-spacing: 0.06em;
   margin-left: 5px;
 }
+
+/* Keep instructions readable when the red-brick diorama passes behind them. */
+.office-heading .mini-instruction,
+.office-heading .office-day {
+  display: table;
+  background: var(--paper);
+  padding: 6px 10px;
+  margin-left: -10px;
+}
